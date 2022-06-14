@@ -35,7 +35,7 @@ html = driver.page_source
 
 soup = BeautifulSoup(html, features="html.parser")
 
-soup.find
+# soup.find
 
 spans = soup.find_all('span', {'class' : 'tutor-name'})
 tutor_names = [span.get_text() for span in spans]

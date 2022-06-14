@@ -22,20 +22,26 @@ def is_match(text):
 
     return False
 
-for i in range(1, 60):
-    url = url_format % i
-    print(url)
-    res = requests.get(url=url, timeout=5, proxies=proxies)
-    if res.status_code != 200:
-        print(res.status_code)
-        sys.exit(1)
-    html = res.text
-    soup = BeautifulSoup(html, features="html.parser")
-    spans = soup.find_all('span', {'class' : 'item_title'})
-    for span in spans:
-        text = span.get_text()
+def main_func(url_format, base_url, proxies, is_match):
+    for i in range(1, 60):
+        url = url_format % i
+        print(url)
+        res = requests.get(url=url, timeout=5, proxies=proxies)
+        if res.status_code != 200:
+            print(res.status_code)
+            sys.exit(1)
+        html = res.text
+        soup = BeautifulSoup(html, features="html.parser")
+        spans = soup.find_all('span', {'class' : 'item_title'})
+        for span in spans:
+            text = span.get_text()
         
-        if is_match(text):
-            link = span.find('a')['href']
-            print(text, base_url + link)
+            if is_match(text):
+                link = span.find('a')['href']
+                print(text, base_url + link)
+
+
+
+if __name__ == '__main__':
+    main_func(url_format, base_url, proxies, is_match)
     
